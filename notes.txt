@@ -1,0 +1,33 @@
+vehicles eventually, dune buggy,
+turbo camel
+
+colony members can be talked to, to assign jobs,
+or by default they will have some priority
+of what they will work on. Maybe just idle
+till assigned
+
+They will have some amount of happiness that needs to
+be tended to. There may be some challenges
+that come with not being able to pause to administer
+the members. but that could bring some fun. maybe a
+physical war horn that needs to be blown to trigger all members to go on attack/ defence. Ways to have many
+members follow you
+
+First experiments should be fixed terrain map that I
+can put colony members into and see what jobs
+they are doing. Give them simple jobs, such as gathering sticks from bushes and depositing somewhere when appropriate
+
+
+raycasts from above from a plane above the land
+do some amount and where they hit a bush shall be placed
+
+
+dithering?
+
+multiple colony members that search for the closest "job" to them
+in this prototype case, just a bush
+
+colony members maybe need a inventory as they would have to carry the
+item. How could i do this to handle all items. maybe have lookup table
+size of number of items that exist and that gets incremented/decremented
+as necessary for each colony member and player.

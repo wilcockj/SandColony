@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://l0u4s46lda2b"]
+
+[ext_resource type="PackedScene" uid="uid://bet1iejcju7w4" path="res://Entities/3D_Text/3D_Text.tscn" id="1_x4p2c"]
+[ext_resource type="Script" path="res://Entities/Bush/Bush.gd" id="1_yy43m"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uvt5f"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m5m1j"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x0ycc"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Area3D" type="StaticBody3D"]
+script = ExtResource("1_yy43m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_uvt5f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_m5m1j")
+skeleton = NodePath("")
+
+[node name="3dText" parent="MeshInstance3D" instance=ExtResource("1_x4p2c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.022291, 0)
+texture = SubResource("ViewportTexture_x0ycc")
+label_text = "bush"

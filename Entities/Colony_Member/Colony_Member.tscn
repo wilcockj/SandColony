@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://congnpupogr0t"]
+
+[ext_resource type="Script" path="res://Entities/Colony_Member/Colony_Member.gd" id="1_1v6m0"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e6i0e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_am1gj"]
+albedo_color = Color(0.857575, 0.346553, 0.293569, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vav7w"]
+
+[node name="ColonyMember" type="CharacterBody3D"]
+script = ExtResource("1_1v6m0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_e6i0e")
+surface_material_override/0 = SubResource("StandardMaterial3D_am1gj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_vav7w")
