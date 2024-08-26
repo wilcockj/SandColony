@@ -7,7 +7,6 @@ func assign_harvest_job(colony_member: ColonyMember, bush_position: Vector3, bus
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		print("Clicked")
 		var camera = get_viewport().get_camera_3d()
 		var ray_origin = camera.project_ray_origin(event.position)
 		var ray_direction = camera.project_ray_normal(event.position)
@@ -24,7 +23,6 @@ func _input(event: InputEvent) -> void:
 		params.collision_mask = 1
 		var result = space_state.intersect_ray(params)
 
-		print(result)
 		if result and result.collider is Bush:
 			print("got a bush")
 			assign_harvest_job(colony_member, result.collider.global_transform.origin, result.collider)
