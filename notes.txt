@@ -1,9 +1,6 @@
 TODO
 Highest Priority first
 
-Make colony member stay on ground when they 
-move towards their job
-
 Bushes generatedranomdly
 raycasts from above from a plane above the land
 do some amount and where they hit a bush shall be placed
