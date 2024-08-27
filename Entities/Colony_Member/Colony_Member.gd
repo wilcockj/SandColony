@@ -67,7 +67,9 @@ func try_harvest():
 		print("No more sticks!")
 		current_job = ""  # Clear job after harvesting
 		at_target = false # no longer at target
+		working = false
 		working_timer.stop()
+		working_timer.timeout.disconnect(try_harvest)
 
 func start_moving_to_target(pos: Vector3) -> void:
 	print("Starting movement to: ", pos)
@@ -81,7 +83,17 @@ func _on_path_changed():
 func _on_target_reached():
 	print("Target reached signal received")
 
+func cleanup_current_job():
+	# todo maybe disconnect all timeouts from working timer
+	if current_job == "harvest":
+		at_target = false # no longer at target
+		working = false
+		working_timer.stop()
+		if working_timer.is_connected("timeout", try_harvest):
+			working_timer.timeout.disconnect(try_harvest)
+
 func assign_harvest_job(target: Vector3, bush: Bush):
+	cleanup_current_job()
 	at_target = false
 	set_target_position(target)
 	current_bush = bush
