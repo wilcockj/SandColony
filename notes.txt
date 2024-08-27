@@ -1,3 +1,30 @@
+TODO
+Highest Priority first
+
+Make colony member stay on ground when they 
+move towards their job
+
+Bushes generatedranomdly
+raycasts from above from a plane above the land
+do some amount and where they hit a bush shall be placed
+
+
+Colony member should search their area periodically for jobs
+multiple colony members that search for the closest "job" to them
+in this prototype case, just a bush
+
+shouldn't go to an empty bush
+bush's should recover their stick balance over time (grow)
+
+colony members maybe need a inventory as they would have to carry the
+item. How could i do this to handle all items. maybe have lookup table
+size of number of items that exist and that gets incremented/decremented
+as necessary for each colony member and player.
+
+
+Down the LINE
+--------
+
 vehicles eventually, dune buggy,
 turbo camel
 
@@ -18,16 +45,6 @@ can put colony members into and see what jobs
 they are doing. Give them simple jobs, such as gathering sticks from bushes and depositing somewhere when appropriate
 
 
-raycasts from above from a plane above the land
-do some amount and where they hit a bush shall be placed
-
-
 dithering?
 
-multiple colony members that search for the closest "job" to them
-in this prototype case, just a bush
 
-colony members maybe need a inventory as they would have to carry the
-item. How could i do this to handle all items. maybe have lookup table
-size of number of items that exist and that gets incremented/decremented
-as necessary for each colony member and player.

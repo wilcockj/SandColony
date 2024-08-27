@@ -9,8 +9,9 @@ albedo_color = Color(0.857575, 0.346553, 0.293569, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vav7w"]
 
-[node name="ColonyMember" type="CharacterBody3D"]
+[node name="ColonyMember" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent")]
 script = ExtResource("1_1v6m0")
+nav_agent = NodePath("NavigationAgent3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_e6i0e")
@@ -18,3 +19,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_am1gj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_vav7w")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
+debug_enabled = true
