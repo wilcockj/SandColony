@@ -1,5 +1,5 @@
 class_name ColonyMember extends CharacterBody3D
-@export var speed: float = 5.0  # Movement speed
+@export var speed: float = 10.0  # Movement speed
 @export var nav_agent: NavigationAgent3D
 
 var target_position: Vector3 = Vector3.ZERO  # Position to move towards

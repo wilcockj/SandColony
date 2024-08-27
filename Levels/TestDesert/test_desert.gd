@@ -1,7 +1,7 @@
 extends Node3D
 
 @onready var colony_member = $ColonyMember  # Assume you have a ColonyMember in the scene
-@export var num_bushes: int = 20  # Number of bushes to generate
+@export var num_bushes: int = 50  # Number of bushes to generate
 @export var map_size: Vector2 = Vector2(100, 100)  # Size of your map
 @export var ray_height: float = 50.0  # Height from which to cast rays
 @export var bush_y_offset: float = 0.5  # Offset to place bush slightly above ground
@@ -31,25 +31,9 @@ func generate_bushes():
 			var bush_position = result.position + Vector3(0, bush_y_offset, 0)
 			bush_instance.global_position = bush_position
 			
-			# Create a navigation obstacle for the bush
-			create_navigation_obstacle(bush_position)
-			
 			print("Bush placed at: ", bush_instance.global_position)
 		else:
 			print("No surface found for bush at x:", random_x, " z:", random_z)
-
-func create_navigation_obstacle(position: Vector3):
-	var obstacle = NavigationObstacle3D.new()
-	add_child(obstacle)
-	obstacle.global_position = position
-	
-	# Set the radius of the obstacle
-	obstacle.radius = bush_radius
-	
-	# You might need to estimate the height of the bush and set it here
-	obstacle.height = 2.0  # Adjust this value based on your bush model's height
-
-
 
 func assign_harvest_job(colony_member: ColonyMember, bush_position: Vector3, bush: Bush) -> void:
 	colony_member.assign_harvest_job(bush_position,bush)

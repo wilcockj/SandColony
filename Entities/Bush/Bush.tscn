@@ -24,3 +24,6 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.022291, 0)
 texture = SubResource("ViewportTexture_x0ycc")
 label_text = "bush"
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 0.9

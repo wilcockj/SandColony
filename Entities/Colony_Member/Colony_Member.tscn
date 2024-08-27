@@ -24,6 +24,5 @@ shape = SubResource("CapsuleShape3D_vav7w")
 path_desired_distance = 2.0
 target_desired_distance = 2.0
 avoidance_enabled = true
-radius = 4.77
-use_3d_avoidance = true
+radius = 0.55
 debug_enabled = true

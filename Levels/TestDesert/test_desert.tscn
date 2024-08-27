@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcvkrkclpylhb"]
+[gd_scene load_steps=8 format=3 uid="uid://dcvkrkclpylhb"]
 
 [ext_resource type="PackedScene" uid="uid://bod128ndc1i11" path="res://Entities/Player/player.tscn" id="1_fj3cm"]
 [ext_resource type="Script" path="res://Levels/TestDesert/test_desert.gd" id="1_q1122"]
 [ext_resource type="PackedScene" uid="uid://bvulty052dq8c" path="res://Levels/TestDesert/test_desert_mesh.tscn" id="2_j82id"]
-[ext_resource type="PackedScene" uid="uid://l0u4s46lda2b" path="res://Entities/Bush/Bush.tscn" id="3_rupu7"]
 [ext_resource type="PackedScene" uid="uid://congnpupogr0t" path="res://Entities/Colony_Member/Colony_Member.tscn" id="5_cl6ub"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4llqt"]
@@ -48,15 +47,3 @@ transform = Transform3D(21.0916, 0, 0, 0, 21.0916, 0, 0, 0, 21.0916, 0, 0, 0)
 
 [node name="ColonyMember" parent="." instance=ExtResource("5_cl6ub")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.87189, 20.052, 0)
-
-[node name="Bush2" parent="." instance=ExtResource("3_rupu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.73, 13.1568, 23.5939)
-
-[node name="Bush" parent="." instance=ExtResource("3_rupu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.365, 19.5784, -4.20305)
-
-[node name="Bush3" parent="." instance=ExtResource("3_rupu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.635, 6.5784, 15.7969)
-
-[node name="Bush4" parent="." instance=ExtResource("3_rupu7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.365, 19.5784, -4.20305)
