@@ -1,6 +1,8 @@
 TODO
 Highest Priority first
 
+Moves when done with job
+
 Not getting stuck on bushes
 
 Bushes generatedranomdly

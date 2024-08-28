@@ -21,8 +21,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_am1gj")
 shape = SubResource("CapsuleShape3D_vav7w")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-path_desired_distance = 2.0
-target_desired_distance = 2.0
+path_desired_distance = 1.45
+target_desired_distance = 3.0
+path_max_distance = 8.01
 avoidance_enabled = true
-radius = 0.55
+time_horizon_obstacles = 0.2
+max_speed = 20.0
 debug_enabled = true

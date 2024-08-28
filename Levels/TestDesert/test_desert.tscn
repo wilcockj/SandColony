@@ -25,8 +25,9 @@ fog_light_color = Color(0.514108, 0.567379, 0.517843, 1)
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.0079
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("level")]
 script = ExtResource("1_q1122")
+level = NodePath("test_desert")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.569237, 0.822174, 0, -0.822174, 0.569237, 4.80365, 20.8998, 7.54891)

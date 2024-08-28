@@ -6,11 +6,12 @@ extends Node3D
 @export var ray_height: float = 50.0  # Height from which to cast rays
 @export var bush_y_offset: float = 0.5  # Offset to place bush slightly above ground
 @export var bush_radius: float = 2.0  # Radius of the navigation obstacle for each bush
-
+@export var level: Node3D
 @onready var bush_scene = preload("res://Entities/Bush/Bush.tscn")
 
 func _ready():
 	generate_bushes()
+	#level.rebake()
 
 func generate_bushes():
 	var space_state = get_world_3d().direct_space_state

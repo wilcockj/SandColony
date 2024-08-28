@@ -7,6 +7,7 @@ var current_job: String = ""
 var current_bush: Bush
 var at_target: bool = false
 var working: bool = false
+var navigating: bool = false;
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const HARVEST_COOLDOWN = 1.0
 var harvest_cooldown = HARVEST_COOLDOWN
@@ -19,10 +20,11 @@ func _ready():
 	add_child(working_timer)
 
 func _physics_process(delta: float) -> void:
-	if current_job == "harvest" and not nav_agent.is_navigation_finished():
+	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
 		move_toward_target(delta)
 	
 	if at_target and not working:
+		print("starting harvest timer")
 		working_timer.one_shot = false
 		working_timer.autostart = false
 		working_timer.wait_time = HARVEST_COOLDOWN
@@ -44,6 +46,8 @@ func move_toward_target(delta: float) -> void:
 func set_target_position(pos: Vector3) -> void:
 	if nav_agent:
 		print("Setting colony member target position: ", pos)
+		at_target = false
+		navigating = true
 		nav_agent.set_target_position(pos)
 		target_position = pos
 	else:
@@ -51,10 +55,12 @@ func set_target_position(pos: Vector3) -> void:
 
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	velocity = safe_velocity
-	move_and_slide()
+	if navigating:
+		move_and_slide()
 
 func _on_reach_target() -> void:
 	print("Reached target!")
+	navigating = false
 	at_target = true
 
 func try_harvest():
@@ -68,6 +74,7 @@ func try_harvest():
 		current_job = ""  # Clear job after harvesting
 		at_target = false # no longer at target
 		working = false
+		navigating = false
 		working_timer.stop()
 		working_timer.timeout.disconnect(try_harvest)
 
