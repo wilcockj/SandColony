@@ -1,7 +1,10 @@
 TODO
 Highest Priority first
 
-Moves when done with job
+Trying to rebake nav mesh on bush placement, not working quite
+yet, not sure how to get it to see group
+nav agent not staying on ground, maybe need nav mesh to gen on ground
+,but also apply grav
 
 Not getting stuck on bushes
 
@@ -47,5 +50,3 @@ they are doing. Give them simple jobs, such as gathering sticks from bushes and 
 
 
 dithering?
-
-

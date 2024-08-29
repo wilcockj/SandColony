@@ -21,6 +21,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
+		print("trying to move")
 		move_toward_target(delta)
 	
 	if at_target and not working:

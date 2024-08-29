@@ -12,5 +12,18 @@ config_version=5
 
 config/name="DuneColony"
 run/main_scene="res://Levels/TestDesert/test_desert.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[filesystem]
+
+import/blender/enabled=false
+
+[global_group]
+
+nav_mesh_group=""
+
+[navigation]
+
+3d/default_cell_size=0.1
+3d/default_cell_height=0.1
