@@ -10,9 +10,10 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_x0ycc"]
 viewport_path = NodePath("SubViewport")
 
-[node name="Area3D" type="StaticBody3D" groups=["nav_mesh_group"]]
+[node name="Area3D" type="StaticBody3D" node_paths=PackedStringArray("text_label") groups=["nav_mesh_group"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000633925, 1.49012e-08, 0.000225738)
 script = ExtResource("1_yy43m")
+text_label = NodePath("MeshInstance3D/3dText")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_uvt5f")

@@ -1,17 +1,7 @@
 TODO
 Highest Priority first
 
-Trying to rebake nav mesh on bush placement, not working quite
-yet, not sure how to get it to see group
-nav agent not staying on ground, maybe need nav mesh to gen on ground
-,but also apply grav
-
-Not getting stuck on bushes
-
-Bushes generatedranomdly
-raycasts from above from a plane above the land
-do some amount and where they hit a bush shall be placed
-
+Bush shows amount of sticks left
 
 Colony member should search their area periodically for jobs
 multiple colony members that search for the closest "job" to them
