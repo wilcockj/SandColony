@@ -1,5 +1,4 @@
 class_name Bush extends StaticBody3D
-
 @export var stick_count: int = 5  # Number of sticks available in the bush
 
 func harvest_stick() -> bool:

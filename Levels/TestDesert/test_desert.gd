@@ -28,7 +28,7 @@ func generate_bushes():
 		
 		if result:
 			var bush_instance = bush_scene.instantiate()
-			add_child(bush_instance)
+			level.add_child(bush_instance)
 			var bush_position = result.position + Vector3(0, bush_y_offset, 0)
 			bush_instance.global_position = bush_position
 			

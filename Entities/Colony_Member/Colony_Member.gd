@@ -38,6 +38,7 @@ func move_toward_target(delta: float) -> void:
 		return
 
 	var next_path_position: Vector3 = nav_agent.get_next_path_position()
+	print(global_position,next_path_position)
 	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * speed
 	if nav_agent.avoidance_enabled:
 		nav_agent.set_velocity(new_velocity)
