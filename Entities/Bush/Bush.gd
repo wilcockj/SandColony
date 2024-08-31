@@ -9,8 +9,10 @@ func _ready():
 func harvest_stick() -> bool:
 	if cur_stick_count > 0:
 		cur_stick_count -= 1
-		text_label.Set_3D_Text("Bush " + str(cur_stick_count) + "/" + str(stick_count) + " sticks")
+		if cur_stick_count == 0:
+			text_label.Set_3D_Text("Bush no sticks")
+		else:
+			text_label.Set_3D_Text("Bush " + str(cur_stick_count) + "/" + str(stick_count) + " sticks")
 		return true
 	else:
-		text_label.Set_3D_Text("Bush no sticks")
 		return false
