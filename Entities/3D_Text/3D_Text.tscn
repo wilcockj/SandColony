@@ -27,5 +27,7 @@ offset_bottom = 23.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 30
+text = "sample text
+"
 horizontal_alignment = 1
 vertical_alignment = 1

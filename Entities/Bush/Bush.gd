@@ -16,3 +16,6 @@ func harvest_stick() -> bool:
 		return true
 	else:
 		return false
+
+func has_work() -> bool:
+	return cur_stick_count > 0

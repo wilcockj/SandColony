@@ -1,13 +1,8 @@
 TODO
 Highest Priority first
 
-Bush shows amount of sticks left
+spawn colony members after bushes 
 
-Colony member should search their area periodically for jobs
-multiple colony members that search for the closest "job" to them
-in this prototype case, just a bush
-
-shouldn't go to an empty bush
 bush's should recover their stick balance over time (grow)
 
 colony members maybe need a inventory as they would have to carry the

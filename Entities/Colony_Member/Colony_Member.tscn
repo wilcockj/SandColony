@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://congnpupogr0t"]
+[gd_scene load_steps=7 format=3 uid="uid://cm0x4ptqsykg4"]
 
 [ext_resource type="Script" path="res://Entities/Colony_Member/Colony_Member.gd" id="1_1v6m0"]
+[ext_resource type="PackedScene" uid="uid://bet1iejcju7w4" path="res://Entities/3D_Text/3D_Text.tscn" id="2_67lly"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_e6i0e"]
 
@@ -9,9 +10,18 @@ albedo_color = Color(0.857575, 0.346553, 0.293569, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vav7w"]
 
-[node name="ColonyMember" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent")]
+[sub_resource type="ViewportTexture" id="ViewportTexture_06rk6"]
+viewport_path = NodePath("SubViewport")
+
+[node name="ColonyMember" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent", "colony_member_text_label")]
 script = ExtResource("1_1v6m0")
 nav_agent = NodePath("NavigationAgent3D")
+colony_member_text_label = NodePath("3dText")
+
+[node name="WorkSearchingTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+autostart = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_e6i0e")
@@ -25,3 +35,10 @@ path_desired_distance = 2.0
 target_desired_distance = 2.0
 avoidance_enabled = true
 debug_enabled = true
+
+[node name="3dText" parent="." instance=ExtResource("2_67lly")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.440426, 0)
+texture = SubResource("ViewportTexture_06rk6")
+label_text = "Sample text"
+
+[connection signal="timeout" from="WorkSearchingTimer" to="." method="_on_work_searching_timer_timeout"]

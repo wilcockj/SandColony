@@ -1,6 +1,8 @@
 class_name ColonyMember extends CharacterBody3D
 @export var speed: float = 10.0  # Movement speed
 @export var nav_agent: NavigationAgent3D
+@export var colony_member_text_label: Text_3D
+@onready var work_search_timer: Timer = %WorkSearchingTimer
 
 var target_position: Vector3 = Vector3.ZERO  # Position to move towards
 var current_job: String = ""
@@ -18,10 +20,18 @@ func _ready():
 	nav_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	nav_agent.target_reached.connect(Callable(_on_reach_target))
 	add_child(working_timer)
+	set_idle()
+
+func set_idle():
+	colony_member_text_label.Set_3D_Text("idle")
+	current_job = ""  # Clear job after harvesting
+	at_target = false # no longer at target
+	working = false
+	navigating = false
+	work_search_timer.start()
 
 func _physics_process(delta: float) -> void:
 	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
-		print("trying to move")
 		move_toward_target(delta)
 	
 	if at_target and not working:
@@ -31,6 +41,7 @@ func _physics_process(delta: float) -> void:
 		working_timer.wait_time = HARVEST_COOLDOWN
 		working_timer.timeout.connect(try_harvest)
 		working_timer.start()
+		colony_member_text_label.Set_3D_Text("harvesting sticks")
 		working = true
 		
 func move_toward_target(delta: float) -> void:
@@ -38,7 +49,6 @@ func move_toward_target(delta: float) -> void:
 		return
 
 	var next_path_position: Vector3 = nav_agent.get_next_path_position()
-	print(global_position,next_path_position)
 	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * speed
 	if nav_agent.avoidance_enabled:
 		nav_agent.set_velocity(new_velocity)
@@ -47,9 +57,10 @@ func move_toward_target(delta: float) -> void:
 
 func set_target_position(pos: Vector3) -> void:
 	if nav_agent:
-		print("Setting colony member target position: ", pos)
+		work_search_timer.stop()
 		at_target = false
 		navigating = true
+		colony_member_text_label.Set_3D_Text("navigating")
 		nav_agent.set_target_position(pos)
 		target_position = pos
 	else:
@@ -73,14 +84,10 @@ func try_harvest():
 		# set timer for some time to try to harvest again
 	else:
 		print("No more sticks!")
-		current_job = ""  # Clear job after harvesting
-		at_target = false # no longer at target
-		working = false
-		navigating = false
-		working_timer.stop()
-		working_timer.timeout.disconnect(try_harvest)
+		work_complete()
 
 func start_moving_to_target(pos: Vector3) -> void:
+	
 	print("Starting movement to: ", pos)
 	current_job = "harvest"
 	at_target = false
@@ -91,19 +98,56 @@ func _on_path_changed():
 
 func _on_target_reached():
 	print("Target reached signal received")
-
-func cleanup_current_job():
-	# todo maybe disconnect all timeouts from working timer
-	if current_job == "harvest":
-		at_target = false # no longer at target
-		working = false
-		working_timer.stop()
-		if working_timer.is_connected("timeout", try_harvest):
-			working_timer.timeout.disconnect(try_harvest)
-
+	
 func assign_harvest_job(target: Vector3, bush: Bush):
-	cleanup_current_job()
+	work_complete()
 	at_target = false
 	set_target_position(target)
 	current_bush = bush
 	current_job = "harvest"
+
+func work_complete():
+	set_idle()
+	working_timer.stop()
+	for connection in working_timer.get_signal_connection_list("timeout"):
+		working_timer.timeout.disconnect(connection.callable)
+	
+	#enable work search timer again
+	work_search_timer.start()
+	
+func find_closest_node_with_work(center: Vector3, radius: float) -> Node3D:
+	var space_state = get_world_3d().direct_space_state
+	var query = PhysicsShapeQueryParameters3D.new()
+	
+	query.shape = SphereShape3D.new()
+	query.shape.radius = radius
+	query.transform.origin = center
+	
+	var result = space_state.intersect_shape(query, 64)
+
+	var closest_node: Node3D = null
+	var closest_distance: float = INF
+
+	for collision in result:
+		var node = collision.collider as Node3D
+		if node and node.has_method("has_work") and node.has_work():
+			var distance = center.distance_to(node.global_transform.origin)
+			if distance < closest_distance:
+				closest_distance = distance
+				closest_node = node
+
+	return closest_node  # Return the closest node found, or null if none is found
+
+	
+func _on_work_searching_timer_timeout() -> void:
+	# search area and make list of all nodes that have has_work()
+	# find closest that returns true and assign that
+		
+	print("Searching for work")
+	var closest_node = find_closest_node_with_work(global_position, 100)
+	if closest_node:
+		print("Found work")
+		if closest_node is Bush:
+			assign_harvest_job(closest_node.global_position,closest_node)
+
+	

@@ -1,4 +1,4 @@
-extends Sprite3D
+class_name Text_3D extends Sprite3D
 
 @export var label_text: String = ""
 
