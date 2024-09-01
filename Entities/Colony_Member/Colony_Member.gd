@@ -5,6 +5,8 @@ class_name ColonyMember extends CharacterBody3D
 @onready var work_search_timer: Timer = %WorkSearchingTimer
 @onready var inventory_label: Text_3D = %Inventory_Label
 
+var inventory: Inventory = Inventory.new()
+
 var target_position: Vector3 = Vector3.ZERO  # Position to move towards
 var current_job: String = ""
 var current_bush: Bush
@@ -84,7 +86,9 @@ func try_harvest():
 		return
 	if current_bush and current_bush.harvest_stick():
 		current_bush.mark_working(get_instance_id())
+		inventory.add_inventory_item("bush")
 		print("Stick harvested!")
+		inventory_label.Set_3D_Text(str(inventory.get_number_item("bush")))
 		# set timer for some time to try to harvest again
 	else:
 		print("No more sticks!")
