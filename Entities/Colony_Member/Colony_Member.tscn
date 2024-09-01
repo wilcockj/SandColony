@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cm0x4ptqsykg4"]
+[gd_scene load_steps=7 format=3 uid="uid://gmvjbkgl6whe"]
 
 [ext_resource type="Script" path="res://Entities/Colony_Member/Colony_Member.gd" id="1_1v6m0"]
-[ext_resource type="PackedScene" uid="uid://bet1iejcju7w4" path="res://Entities/3D_Text/3D_Text.tscn" id="2_67lly"]
+[ext_resource type="PackedScene" uid="uid://dtc42ftx6e2u3" path="res://Entities/3D_Text/3D_Text.tscn" id="2_67lly"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_e6i0e"]
 

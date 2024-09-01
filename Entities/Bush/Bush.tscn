@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://l0u4s46lda2b"]
+[gd_scene load_steps=6 format=3 uid="uid://juixfcfstap8"]
 
-[ext_resource type="PackedScene" uid="uid://bet1iejcju7w4" path="res://Entities/3D_Text/3D_Text.tscn" id="1_x4p2c"]
+[ext_resource type="PackedScene" uid="uid://dtc42ftx6e2u3" path="res://Entities/3D_Text/3D_Text.tscn" id="1_x4p2c"]
 [ext_resource type="Script" path="res://Entities/Bush/Bush.gd" id="1_yy43m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvt5f"]
@@ -29,3 +29,9 @@ label_text = "bush"
 
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
 radius = 0.85
+
+[node name="GrowTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 60.0
+
+[connection signal="timeout" from="GrowTimer" to="." method="_on_grow_timer_timeout"]

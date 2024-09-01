@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bet1iejcju7w4"]
+[gd_scene load_steps=4 format=3 uid="uid://dtc42ftx6e2u3"]
 
 [ext_resource type="Script" path="res://Entities/3D_Text/SubViewport.gd" id="1_n0mbo"]
 [ext_resource type="Script" path="res://Entities/3D_Text/3D_Text.gd" id="1_xkgkr"]

@@ -1,10 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dcvkrkclpylhb"]
+[gd_scene load_steps=10 format=3 uid="uid://carvyvlpojol4"]
 
-[ext_resource type="PackedScene" uid="uid://bod128ndc1i11" path="res://Entities/Player/player.tscn" id="1_fj3cm"]
+[ext_resource type="PackedScene" uid="uid://cjdcndi3bg20h" path="res://Entities/Player/player.tscn" id="1_fj3cm"]
 [ext_resource type="Script" path="res://Levels/TestDesert/test_desert.gd" id="1_q1122"]
 [ext_resource type="Script" path="res://Levels/TestDesert/nav_desert.gd" id="4_5vchq"]
-[ext_resource type="PackedScene" uid="uid://cm0x4ptqsykg4" path="res://Entities/Colony_Member/Colony_Member.tscn" id="5_cl6ub"]
-[ext_resource type="PackedScene" uid="uid://bvulty052dq8c" path="res://Levels/TestDesert/test_desert_mesh.tscn" id="6_hfu22"]
+[ext_resource type="PackedScene" uid="uid://gmvjbkgl6whe" path="res://Entities/Colony_Member/Colony_Member.tscn" id="5_cl6ub"]
+[ext_resource type="PackedScene" uid="uid://hccexqbho2cr" path="res://Levels/TestDesert/test_desert_mesh.tscn" id="6_hfu22"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4llqt"]
 sky_top_color = Color(0.548122, 0.423879, 0.253059, 1)
