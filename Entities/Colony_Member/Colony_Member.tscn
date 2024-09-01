@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://gmvjbkgl6whe"]
+[gd_scene load_steps=8 format=3 uid="uid://gmvjbkgl6whe"]
 
 [ext_resource type="Script" path="res://Entities/Colony_Member/Colony_Member.gd" id="1_1v6m0"]
 [ext_resource type="PackedScene" uid="uid://dtc42ftx6e2u3" path="res://Entities/3D_Text/3D_Text.tscn" id="2_67lly"]
@@ -10,13 +10,15 @@ albedo_color = Color(0.857575, 0.346553, 0.293569, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vav7w"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_vkykk"]
+viewport_path = NodePath("SubViewport")
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_06rk6"]
 viewport_path = NodePath("SubViewport")
 
-[node name="ColonyMember" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent", "colony_member_text_label")]
+[node name="ColonyMember" type="CharacterBody3D" node_paths=PackedStringArray("nav_agent")]
 script = ExtResource("1_1v6m0")
 nav_agent = NodePath("NavigationAgent3D")
-colony_member_text_label = NodePath("3dText")
 
 [node name="WorkSearchingTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -33,10 +35,17 @@ shape = SubResource("CapsuleShape3D_vav7w")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 path_desired_distance = 2.0
 target_desired_distance = 2.0
+path_max_distance = 8.01
 avoidance_enabled = true
 debug_enabled = true
 
-[node name="3dText" parent="." instance=ExtResource("2_67lly")]
+[node name="Inventory_Label" parent="." instance=ExtResource("2_67lly")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000311852, -0.537283, 0)
+texture = SubResource("ViewportTexture_vkykk")
+
+[node name="State_Label" parent="." instance=ExtResource("2_67lly")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.440426, 0)
 texture = SubResource("ViewportTexture_06rk6")
 label_text = "Sample text"

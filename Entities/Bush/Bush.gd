@@ -3,6 +3,8 @@ class_name Bush extends StaticBody3D
 var cur_stick_count = stick_count
 @export var text_label: Sprite3D
 @onready var grow_timer: Timer = %GrowTimer
+var being_worked = false
+var id_working
 
 func _ready():
 	text_label.Set_3D_Text("Bush " + str(cur_stick_count) + "/" + str(stick_count) + " sticks")
@@ -18,11 +20,22 @@ func harvest_stick() -> bool:
 	else:
 		print("starting grow timer")
 		grow_timer.start()
+		done_working()
 		return false
 
 func has_work() -> bool:
-	return cur_stick_count > 0
+	return cur_stick_count > 0 && !being_worked
 
+func done_working():
+	being_worked = false
+	
+func mark_working(id):
+	id_working = id
+	being_worked = true
+
+func is_claimed_by_other(id):
+	if id_working != id:
+		return true
 
 func _on_grow_timer_timeout() -> void:
 	print("Grew sticks back")

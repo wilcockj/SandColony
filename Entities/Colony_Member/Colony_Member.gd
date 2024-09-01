@@ -1,8 +1,9 @@
 class_name ColonyMember extends CharacterBody3D
 @export var speed: float = 10.0  # Movement speed
 @export var nav_agent: NavigationAgent3D
-@export var colony_member_text_label: Text_3D
+@onready var colony_member_text_label: Text_3D = %State_Label
 @onready var work_search_timer: Timer = %WorkSearchingTimer
+@onready var inventory_label: Text_3D = %Inventory_Label
 
 var target_position: Vector3 = Vector3.ZERO  # Position to move towards
 var current_job: String = ""
@@ -32,6 +33,8 @@ func set_idle():
 
 func _physics_process(delta: float) -> void:
 	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
+		if current_bush.is_claimed_by_other(get_instance_id()):
+			set_idle()
 		move_toward_target(delta)
 	
 	if at_target and not working:
@@ -80,6 +83,7 @@ func try_harvest():
 	if current_job != "harvest":
 		return
 	if current_bush and current_bush.harvest_stick():
+		current_bush.mark_working(get_instance_id())
 		print("Stick harvested!")
 		# set timer for some time to try to harvest again
 	else:
@@ -100,6 +104,8 @@ func _on_target_reached():
 	print("Target reached signal received")
 	
 func assign_harvest_job(target: Vector3, bush: Bush):
+	if current_bush:
+		current_bush.done_working()
 	work_complete()
 	at_target = false
 	set_target_position(target)
@@ -142,12 +148,12 @@ func find_closest_node_with_work(center: Vector3, radius: float) -> Node3D:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-		
 	print("Searching for work")
 	var closest_node = find_closest_node_with_work(global_position, 100)
 	if closest_node:
 		print("Found work")
 		if closest_node is Bush:
 			assign_harvest_job(closest_node.global_position,closest_node)
+			closest_node.mark_working(get_instance_id())
 
 	
