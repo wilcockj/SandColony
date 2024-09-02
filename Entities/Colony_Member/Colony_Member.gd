@@ -14,10 +14,17 @@ var at_target: bool = false
 var working: bool = false
 var navigating: bool = false;
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-const HARVEST_COOLDOWN = 1.0
+const HARVEST_COOLDOWN = 0.5
 var harvest_cooldown = HARVEST_COOLDOWN
 
 var working_timer : Timer = Timer.new()
+
+const LAST_POSITIONS_NUM = 5
+var last_positions: Array = []
+var last_positions_idx = 0
+var last_positions_init: bool = false
+
+var exclude_list = []
 
 func _ready():
 	nav_agent.velocity_computed.connect(Callable(_on_velocity_computed))
@@ -54,6 +61,30 @@ func move_toward_target(delta: float) -> void:
 		return
 
 	var next_path_position: Vector3 = nav_agent.get_next_path_position()
+	#print(str(get_instance_id()) + str(global_position))
+	
+	#remember last N positions, to get unstuck if not moving
+
+	if last_positions.size() == LAST_POSITIONS_NUM:
+		last_positions[last_positions_idx] = global_position
+	else:
+		last_positions.append(global_position)
+		
+	if last_positions_idx == LAST_POSITIONS_NUM - 1:
+		last_positions_init = true
+	last_positions_idx = wrapi(last_positions_idx + 1, 0, LAST_POSITIONS_NUM)
+	
+	# if all last positions have been the same need to mark colony worker as stuck
+	# set idle and then add current bush to exclude list for work search
+	if last_positions_init:
+		if last_positions.all(func(element): return element == global_position):
+			print("marking worker as stuck")
+			exclude_list.append(current_bush)
+			work_complete()
+			last_positions_init = false
+			last_positions_idx = 0
+			last_positions = []
+	
 	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * speed
 	if nav_agent.avoidance_enabled:
 		nav_agent.set_velocity(new_velocity)
@@ -80,6 +111,9 @@ func _on_reach_target() -> void:
 	print("Reached target!")
 	navigating = false
 	at_target = true
+	
+	#init exclude list as we reached some work
+	exclude_list = []
 
 func try_harvest():
 	if current_job != "harvest":
@@ -125,7 +159,7 @@ func work_complete():
 	#enable work search timer again
 	work_search_timer.start()
 	
-func find_closest_node_with_work(center: Vector3, radius: float) -> Node3D:
+func find_closest_node_with_work(center: Vector3, radius: float, exclude_list: Array) -> Node3D:
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsShapeQueryParameters3D.new()
 	
@@ -140,7 +174,7 @@ func find_closest_node_with_work(center: Vector3, radius: float) -> Node3D:
 
 	for collision in result:
 		var node = collision.collider as Node3D
-		if node and node.has_method("has_work") and node.has_work():
+		if node and node.has_method("has_work") and node.has_work() && node not in exclude_list:
 			var distance = center.distance_to(node.global_transform.origin)
 			if distance < closest_distance:
 				closest_distance = distance
@@ -153,7 +187,7 @@ func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
 	print("Searching for work")
-	var closest_node = find_closest_node_with_work(global_position, 100)
+	var closest_node = find_closest_node_with_work(global_position, 100, exclude_list)
 	if closest_node:
 		print("Found work")
 		if closest_node is Bush:

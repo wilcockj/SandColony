@@ -1,6 +1,8 @@
 TODO
 Highest Priority first
 
+maybe if colony members haven't moved for a long time they should navigate somewhere else?
+
 spawn colony members after bushes 
 
 bush's should recover their stick balance over time (grow)
