@@ -19,10 +19,9 @@ var harvest_cooldown = HARVEST_COOLDOWN
 
 var working_timer : Timer = Timer.new()
 
-const LAST_POSITIONS_NUM = 5
-var last_positions: Array = []
-var last_positions_idx = 0
-var last_positions_init: bool = false
+const MIN_STUCK_MOVEMENT = .01
+const LAST_POSITIONS_NUM = 10
+var last_positions_buf: Circular_Buffer = Circular_Buffer.new(LAST_POSITIONS_NUM)
 
 var exclude_list = []
 
@@ -40,11 +39,11 @@ func set_idle():
 	navigating = false
 	work_search_timer.start()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
 		if current_bush.is_claimed_by_other(get_instance_id()):
 			set_idle()
-		move_toward_target(delta)
+		move_toward_target()
 	
 	if at_target and not working:
 		print("starting harvest timer")
@@ -56,34 +55,20 @@ func _physics_process(delta: float) -> void:
 		colony_member_text_label.Set_3D_Text("harvesting sticks")
 		working = true
 		
-func move_toward_target(delta: float) -> void:
+func move_toward_target() -> void:
 	if nav_agent.is_navigation_finished():
 		return
 
 	var next_path_position: Vector3 = nav_agent.get_next_path_position()
-	#print(str(get_instance_id()) + str(global_position))
 	
 	#remember last N positions, to get unstuck if not moving
-
-	if last_positions.size() == LAST_POSITIONS_NUM:
-		last_positions[last_positions_idx] = global_position
-	else:
-		last_positions.append(global_position)
-		
-	if last_positions_idx == LAST_POSITIONS_NUM - 1:
-		last_positions_init = true
-	last_positions_idx = wrapi(last_positions_idx + 1, 0, LAST_POSITIONS_NUM)
-	
-	# if all last positions have been the same need to mark colony worker as stuck
-	# set idle and then add current bush to exclude list for work search
-	if last_positions_init:
-		if last_positions.all(func(element): return element == global_position):
-			print("marking worker as stuck")
+	last_positions_buf.add_item(global_position)
+	if last_positions_buf.buff_saturated():
+		if last_positions_buf.all(func(element): return abs(element - global_position).length() < MIN_STUCK_MOVEMENT):
+			print("marking worker as stuck new method")
 			exclude_list.append(current_bush)
 			work_complete()
-			last_positions_init = false
-			last_positions_idx = 0
-			last_positions = []
+			last_positions_buf = Circular_Buffer.new(LAST_POSITIONS_NUM)
 	
 	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * speed
 	if nav_agent.avoidance_enabled:
@@ -159,7 +144,7 @@ func work_complete():
 	#enable work search timer again
 	work_search_timer.start()
 	
-func find_closest_node_with_work(center: Vector3, radius: float, exclude_list: Array) -> Node3D:
+func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes: Array) -> Node3D:
 	var space_state = get_world_3d().direct_space_state
 	var query = PhysicsShapeQueryParameters3D.new()
 	
@@ -174,7 +159,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, exclude_list: A
 
 	for collision in result:
 		var node = collision.collider as Node3D
-		if node and node.has_method("has_work") and node.has_work() && node not in exclude_list:
+		if node and node.has_method("has_work") and node.has_work() && node not in excluded_nodes:
 			var distance = center.distance_to(node.global_transform.origin)
 			if distance < closest_distance:
 				closest_distance = distance
