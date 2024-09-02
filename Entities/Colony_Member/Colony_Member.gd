@@ -46,14 +46,16 @@ func _physics_process(_delta: float) -> void:
 		move_toward_target()
 	
 	if at_target and not working:
-		print("starting harvest timer")
+		
 		working_timer.one_shot = false
 		working_timer.autostart = false
-		working_timer.wait_time = HARVEST_COOLDOWN
-		working_timer.timeout.connect(try_harvest)
-		working_timer.start()
-		colony_member_text_label.Set_3D_Text("harvesting sticks")
-		working = true
+		if current_job == "harvest":
+			print("starting harvest timer")
+			working_timer.wait_time = HARVEST_COOLDOWN
+			working_timer.timeout.connect(try_harvest)
+			working_timer.start()
+			colony_member_text_label.Set_3D_Text("harvesting sticks")
+			working = true
 		
 func move_toward_target() -> void:
 	if nav_agent.is_navigation_finished():

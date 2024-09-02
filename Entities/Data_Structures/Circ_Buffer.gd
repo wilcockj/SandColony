@@ -1,4 +1,4 @@
-class_name Circular_Buffer extends Node
+class_name Circular_Buffer extends Object
 
 var buff_size = 5
 var buffer: Array = []

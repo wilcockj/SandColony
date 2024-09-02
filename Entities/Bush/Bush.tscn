@@ -1,11 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://juixfcfstap8"]
+[gd_scene load_steps=7 format=3 uid="uid://juixfcfstap8"]
 
 [ext_resource type="PackedScene" uid="uid://dtc42ftx6e2u3" path="res://Entities/3D_Text/3D_Text.tscn" id="1_x4p2c"]
 [ext_resource type="Script" path="res://Entities/Bush/Bush.gd" id="1_yy43m"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvt5f"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkwdi"]
+albedo_color = Color(1, 0.0470588, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_m5m1j"]
+material = SubResource("StandardMaterial3D_dkwdi")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_x0ycc"]
 viewport_path = NodePath("SubViewport")

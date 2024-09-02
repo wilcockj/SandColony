@@ -1,5 +1,5 @@
 class_name Bush extends StaticBody3D
-@export var stick_count: int = 5  # Number of sticks available in the bush
+@export var stick_count: int = 20  # Number of sticks available in the bush
 var cur_stick_count = stick_count
 @export var text_label: Sprite3D
 @onready var grow_timer: Timer = %GrowTimer
