@@ -1,8 +1,6 @@
 TODO
 Highest Priority first
 
-god cam scroll to zoom in and out
-
 leader board to show how workers are doing
 
 gain xp for doing a job, get more efficient at doing things
@@ -10,8 +8,6 @@ gain xp for doing a job, get more efficient at doing things
 jobs should have a relevant skills that give a benefit
 
 How could i add another job? (rock able to mine)
-
-spawn colony members after bushes 
 
 Down the LINE
 --------

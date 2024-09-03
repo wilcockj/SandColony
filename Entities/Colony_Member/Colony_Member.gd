@@ -108,11 +108,9 @@ func try_harvest():
 	if current_bush and current_bush.harvest_stick():
 		current_bush.mark_working(get_instance_id())
 		inventory.add_inventory_item("bush")
-		print("Stick harvested!")
 		inventory_label.Set_3D_Text(str(inventory.get_number_item("bush")))
 		# set timer for some time to try to harvest again
 	else:
-		print("No more sticks!")
 		work_complete()
 
 func start_moving_to_target(pos: Vector3) -> void:
@@ -173,7 +171,6 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-	print("Searching for work")
 	var closest_node = find_closest_node_with_work(global_position, 100, exclude_list)
 	if closest_node:
 		print("Found work")

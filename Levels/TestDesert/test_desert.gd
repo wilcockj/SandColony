@@ -38,7 +38,7 @@ func place_node_randomly(node, offset, num):
 		if result:
 			var instance = node.instantiate()
 			level.add_child(instance)
-			var node_position = result.position + Vector3(0, bush_y_offset, 0)
+			var node_position = result.position + Vector3(0, offset, 0)
 			instance.global_position = node_position
 			
 			print("Node placed at: ", instance.global_position)

@@ -41,7 +41,7 @@ debug_enabled = true
 
 [node name="Inventory_Label" parent="." instance=ExtResource("2_67lly")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000311852, 1.2168, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000311852, 1.2168, -1)
 texture = SubResource("ViewportTexture_vkykk")
 
 [node name="State_Label" parent="." instance=ExtResource("2_67lly")]
