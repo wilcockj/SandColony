@@ -152,7 +152,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 	query.shape.radius = radius
 	query.transform.origin = center
 	
-	var result = space_state.intersect_shape(query, 64)
+	var result = space_state.intersect_shape(query, 512)
 
 	var closest_node: Node3D = null
 	var closest_distance: float = INF
@@ -160,7 +160,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 	for collision in result:
 		var node = collision.collider as Node3D
 		if node and node.has_method("has_work") and node.has_work() && node not in excluded_nodes:
-			var distance = center.distance_to(node.global_transform.origin)
+			var distance = center.distance_to(node.global_position)
 			if distance < closest_distance:
 				closest_distance = distance
 				closest_node = node
@@ -171,7 +171,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-	var closest_node = find_closest_node_with_work(global_position, 100, exclude_list)
+	var closest_node = find_closest_node_with_work(global_position, 300, exclude_list)
 	if closest_node:
 		print("Found work")
 		if closest_node is Bush:

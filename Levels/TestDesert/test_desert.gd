@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var num_bushes: int = 250  # Number of bushes to generate
+@export var num_bushes: int = 400  # Number of bushes to generate
 @export var map_size: Vector2 = Vector2(200, 200)  # Size of your map
 @export var ray_height: float = 50.0  # Height from which to cast rays
 @export var bush_y_offset: float = 0.5  # Offset to place bush slightly above ground
@@ -15,7 +15,7 @@ func _ready():
 	place_colony_members()
 
 func place_colony_members():
-	place_node_randomly(colony_member, 1.0, 60)
+	place_node_randomly(colony_member, 1.0, 80)
 
 func generate_bushes():
 	place_node_randomly(bush_scene, bush_y_offset, num_bushes)
