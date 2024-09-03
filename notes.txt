@@ -1,7 +1,9 @@
 TODO
 Highest Priority first
 
-god cam, look from above, scroll to zoom in and out wasd to move
+god cam scroll to zoom in and out
+
+leader board to show how workers are doing
 
 gain xp for doing a job, get more efficient at doing things
 
