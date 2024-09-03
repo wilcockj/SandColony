@@ -14,6 +14,7 @@ func harvest_stick() -> bool:
 		cur_stick_count -= 1
 		if cur_stick_count == 0:
 			text_label.Set_3D_Text("Bush no sticks")
+			$MeshInstance3D.mesh.material.albedo_color = Color.LIGHT_GREEN
 		else:
 			text_label.Set_3D_Text("Bush " + str(cur_stick_count) + "/" + str(stick_count) + " sticks")
 		return true
@@ -38,6 +39,7 @@ func is_claimed_by_other(id):
 		return true
 
 func _on_grow_timer_timeout() -> void:
+	$MeshInstance3D.mesh.material.albedo_color = Color.RED
 	print("Grew sticks back")
 	cur_stick_count = stick_count
 	text_label.Set_3D_Text("Bush " + str(cur_stick_count) + "/" + str(stick_count) + " sticks")

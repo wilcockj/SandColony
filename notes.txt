@@ -1,6 +1,8 @@
 TODO
 Highest Priority first
 
+worker work location priority is strange?
+
 leader board to show how workers are doing
 
 gain xp for doing a job, get more efficient at doing things

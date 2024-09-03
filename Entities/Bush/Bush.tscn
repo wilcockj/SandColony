@@ -5,11 +5,13 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvt5f"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkwdi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oeman"]
+resource_local_to_scene = true
 albedo_color = Color(1, 0.0470588, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_m5m1j"]
-material = SubResource("StandardMaterial3D_dkwdi")
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_oeman")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_x0ycc"]
 viewport_path = NodePath("SubViewport")
