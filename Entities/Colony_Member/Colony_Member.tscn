@@ -36,7 +36,6 @@ shape = SubResource("CapsuleShape3D_vav7w")
 path_desired_distance = 2.0
 target_desired_distance = 2.0
 path_max_distance = 8.01
-avoidance_enabled = true
 debug_enabled = true
 
 [node name="Inventory_Label" parent="." instance=ExtResource("2_67lly")]
@@ -50,4 +49,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.440426, 0)
 texture = SubResource("ViewportTexture_06rk6")
 label_text = "Sample text"
 
+[node name="ExcludeClearTimer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
 [connection signal="timeout" from="WorkSearchingTimer" to="." method="_on_work_searching_timer_timeout"]
+[connection signal="timeout" from="ExcludeClearTimer" to="." method="_on_exclude_clear_timer_timeout"]

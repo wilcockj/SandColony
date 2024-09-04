@@ -3,6 +3,10 @@ Highest Priority first
 
 leader board to show how workers are doing
 
+in rare case all nodes could be added to exclusion list and
+member could be stuck forever even if others move out of the way
+eventually
+
 gain xp for doing a job, get more efficient at doing things
 
 jobs should have a relevant skills that give a benefit

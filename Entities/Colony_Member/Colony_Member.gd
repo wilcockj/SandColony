@@ -50,7 +50,7 @@ func _physics_process(_delta: float) -> void:
 		working_timer.one_shot = false
 		working_timer.autostart = false
 		if current_job == "harvest":
-			print("starting harvest timer")
+			#print("starting harvest timer")
 			working_timer.wait_time = HARVEST_COOLDOWN
 			working_timer.timeout.connect(try_harvest)
 			working_timer.start()
@@ -152,7 +152,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 	query.shape.radius = radius
 	query.transform.origin = center
 	
-	var result = space_state.intersect_shape(query, 512)
+	var result = space_state.intersect_shape(query, 1024)
 
 	var closest_node: Node3D = null
 	var closest_distance: float = INF
@@ -171,7 +171,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-	var closest_node = find_closest_node_with_work(global_position, 300, exclude_list)
+	var closest_node = find_closest_node_with_work(global_position, 10, exclude_list)
 	if closest_node:
 		print("Found work")
 		if closest_node is Bush:
@@ -179,3 +179,8 @@ func _on_work_searching_timer_timeout() -> void:
 			closest_node.mark_working(get_instance_id())
 
 	
+
+
+func _on_exclude_clear_timer_timeout() -> void:
+	print("clearing exclude list")
+	exclude_list = []
