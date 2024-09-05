@@ -1,16 +1,20 @@
 extends Node3D
 
-@export var num_bushes: int = 1000  # Number of bushes to generate
+@export var num_bushes: int = 200  # Number of bushes to generate
+@export var num_rocks: int = 200
+
 @export var map_size: Vector2 = Vector2(200, 200)  # Size of your map
 @export var ray_height: float = 50.0  # Height from which to cast rays
 @export var bush_y_offset: float = 0.5  # Offset to place bush slightly above ground
 @export var bush_radius: float = 2.0  # Radius of the navigation obstacle for each bush
 @export var level: NavigationRegion3D
 @onready var bush_scene = preload("res://Entities/Bush/Bush.tscn")
+@onready var rock_scene = preload("res://Entities/Rock/Rock.tscn")
 @onready var colony_member = preload("res://Entities/Colony_Member/Colony_Member.tscn")
 
 func _ready():
 	generate_bushes()
+	generate_rocks()
 	level.rebake()
 	place_colony_members()
 
@@ -19,6 +23,10 @@ func place_colony_members():
 
 func generate_bushes():
 	place_node_randomly(bush_scene, bush_y_offset, num_bushes)
+
+func generate_rocks():
+	place_node_randomly(rock_scene, bush_y_offset, num_rocks)
+
 
 
 func place_node_randomly(node, offset, num):

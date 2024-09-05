@@ -12,6 +12,13 @@ func print_inventory():
 	for key in inventory.keys():
 		print(inventory[key])
 		
+func get_inventory_string():
+	var inventory_str = ""
+	for key in inventory.keys():
+		inventory_str += key + ":" + str(get_number_item(key))
+		inventory_str += "\n"
+	return inventory_str
+		
 func get_number_item(item: String):
 	if inventory.has(item):
 		return inventory[item]

@@ -9,7 +9,8 @@ var inventory: Inventory = Inventory.new()
 
 var target_position: Vector3 = Vector3.ZERO  # Position to move towards
 var current_job: String = ""
-var current_bush: Bush
+var current_job_target
+
 var at_target: bool = false
 var working: bool = false
 var navigating: bool = false;
@@ -19,8 +20,8 @@ var harvest_cooldown = HARVEST_COOLDOWN
 
 var working_timer : Timer = Timer.new()
 
-const MIN_STUCK_MOVEMENT = .01
-const LAST_POSITIONS_NUM = 10
+const MIN_STUCK_MOVEMENT = .1
+const LAST_POSITIONS_NUM = 30
 var last_positions_buf: Circular_Buffer = Circular_Buffer.new(LAST_POSITIONS_NUM)
 
 var exclude_list = []
@@ -40,22 +41,23 @@ func set_idle():
 	work_search_timer.start()
 
 func _physics_process(_delta: float) -> void:
-	if current_job == "harvest" and not nav_agent.is_navigation_finished() and not at_target and navigating:
-		if current_bush.is_claimed_by_other(get_instance_id()):
+	if current_job and not nav_agent.is_navigation_finished() and not at_target and navigating:
+		if current_job_target.is_claimed_by_other(get_instance_id()):
 			set_idle()
 		move_toward_target()
 	
-	if at_target and not working:
+	if at_target and not working and current_job:
 		
 		working_timer.one_shot = false
 		working_timer.autostart = false
-		if current_job == "harvest":
-			#print("starting harvest timer")
-			working_timer.wait_time = HARVEST_COOLDOWN
-			working_timer.timeout.connect(try_harvest)
-			working_timer.start()
+		working_timer.wait_time = HARVEST_COOLDOWN
+		working_timer.timeout.connect(try_harvest)
+		working_timer.start()
+		working = true
+		if current_job == "harvest":	
 			colony_member_text_label.Set_3D_Text("harvesting sticks")
-			working = true
+		elif current_job == "mining":
+			colony_member_text_label.Set_3D_Text("harvesting rocks")
 		
 func move_toward_target() -> void:
 	if nav_agent.is_navigation_finished():
@@ -68,7 +70,7 @@ func move_toward_target() -> void:
 	if last_positions_buf.buff_saturated():
 		if last_positions_buf.all(func(element): return abs(element - global_position).length() < MIN_STUCK_MOVEMENT):
 			print("marking worker as stuck new method")
-			exclude_list.append(current_bush)
+			exclude_list.append(current_job_target)
 			work_complete()
 			last_positions_buf = Circular_Buffer.new(LAST_POSITIONS_NUM)
 	
@@ -103,15 +105,16 @@ func _on_reach_target() -> void:
 	exclude_list = []
 
 func try_harvest():
-	if current_job != "harvest":
-		return
-	if current_bush and current_bush.harvest_stick():
-		current_bush.mark_working(get_instance_id())
-		inventory.add_inventory_item("bush")
-		inventory_label.Set_3D_Text(str(inventory.get_number_item("bush")))
+	if current_job_target and current_job_target.harvest():
+		current_job_target.mark_working(get_instance_id())
+		inventory.add_inventory_item(current_job_target.item_name)
+		set_inventory_label()
 		# set timer for some time to try to harvest again
 	else:
 		work_complete()
+
+func set_inventory_label():
+	inventory_label.Set_3D_Text(inventory.get_inventory_string())
 
 func start_moving_to_target(pos: Vector3) -> void:
 	
@@ -127,13 +130,23 @@ func _on_target_reached():
 	print("Target reached signal received")
 	
 func assign_harvest_job(target: Vector3, bush: Bush):
-	if current_bush:
-		current_bush.done_working()
+	if current_job_target:
+		current_job_target.done_working()
 	work_complete()
 	at_target = false
 	set_target_position(target)
-	current_bush = bush
+	current_job_target = bush
 	current_job = "harvest"
+	
+func assign_mining_job(target: Vector3, rock: Rock):
+	if current_job_target:
+		current_job_target.done_working()
+	work_complete()
+	at_target = false
+	set_target_position(target)
+	current_job_target = rock
+	current_job = "mining"
+
 
 func work_complete():
 	set_idle()
@@ -171,16 +184,16 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-	var closest_node = find_closest_node_with_work(global_position, 10, exclude_list)
+	var closest_node = find_closest_node_with_work(global_position, 20, exclude_list)
 	if closest_node:
 		print("Found work")
 		if closest_node is Bush:
 			assign_harvest_job(closest_node.global_position,closest_node)
 			closest_node.mark_working(get_instance_id())
-
-	
-
-
+		elif closest_node is Rock:
+			assign_mining_job(closest_node.global_position,closest_node)
+			closest_node.mark_working(get_instance_id())
+			
 func _on_exclude_clear_timer_timeout() -> void:
 	print("clearing exclude list")
 	exclude_list = []

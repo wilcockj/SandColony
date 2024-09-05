@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://htv6crmpfc5r"]
+
+[ext_resource type="Script" path="res://Entities/Rock/Rock.gd" id="1_sb7ki"]
+[ext_resource type="PackedScene" uid="uid://wou62ju23k3x" path="res://blender/rock.glb" id="2_cbkxs"]
+[ext_resource type="PackedScene" uid="uid://dtc42ftx6e2u3" path="res://Entities/3D_Text/3D_Text.tscn" id="2_vgcg6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uvt5f"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_x0ycc"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Area3D" type="StaticBody3D" node_paths=PackedStringArray("text_label") groups=["nav_mesh_group"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000633925, 1.49012e-08, 0.000225738)
+script = ExtResource("1_sb7ki")
+text_label = NodePath("rock/3dText")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_uvt5f")
+
+[node name="rock" parent="." instance=ExtResource("2_cbkxs")]
+
+[node name="3dText" parent="rock" instance=ExtResource("2_vgcg6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.022291, 0)
+texture = SubResource("ViewportTexture_x0ycc")
+label_text = "bush"
+
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
+radius = 1.2
+
+[node name="GrowTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 30.0
+
+[connection signal="timeout" from="GrowTimer" to="." method="_on_grow_timer_timeout"]
