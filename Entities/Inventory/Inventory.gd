@@ -23,3 +23,9 @@ func get_number_item(item: String):
 	if inventory.has(item):
 		return inventory[item]
 	return 0
+
+func get_total_all_items():
+	var sum = 0
+	for key in inventory.keys():
+		sum = get_number_item(key)
+	return sum

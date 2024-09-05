@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://carvyvlpojol4"]
+[gd_scene load_steps=10 format=3 uid="uid://carvyvlpojol4"]
 
 [ext_resource type="Script" path="res://Levels/TestDesert/test_desert.gd" id="1_q1122"]
 [ext_resource type="PackedScene" uid="uid://dgoc1mxunugl" path="res://Entities/God_Camera/god_cam.tscn" id="2_qwrgt"]
 [ext_resource type="Script" path="res://Levels/TestDesert/nav_desert.gd" id="4_5vchq"]
+[ext_resource type="PackedScene" uid="uid://sfrv5sirc6dy" path="res://UI/ui.tscn" id="5_siapa"]
 [ext_resource type="PackedScene" uid="uid://hccexqbho2cr" path="res://Levels/TestDesert/test_desert_mesh.tscn" id="6_hfu22"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4llqt"]
@@ -32,9 +33,10 @@ cell_size = 0.2
 cell_height = 0.2
 agent_radius = 1.0
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("level")]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("level", "ui")]
 script = ExtResource("1_q1122")
 level = NodePath("NavigationRegion3D")
+ui = NodePath("UI")
 
 [node name="God_Cam" parent="." instance=ExtResource("2_qwrgt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 69.2724, 0)
@@ -56,3 +58,11 @@ script = ExtResource("4_5vchq")
 
 [node name="test_desert2" parent="NavigationRegion3D" instance=ExtResource("6_hfu22")]
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, -7.1838, -21.632, 10.6183)
+
+[node name="UI" parent="." instance=ExtResource("5_siapa")]
+unique_name_in_owner = true
+
+[node name="UpdateLeaderBoardTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="UpdateLeaderBoardTimer" to="." method="_on_update_leader_board_timer_timeout"]
