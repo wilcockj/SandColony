@@ -19,7 +19,7 @@ func _ready():
 	place_colony_members()
 
 func place_colony_members():
-	place_node_randomly(colony_member, 1.0, 200)
+	place_node_randomly(colony_member, 1.0, 100)
 
 func generate_bushes():
 	place_node_randomly(bush_scene, bush_y_offset, num_bushes)

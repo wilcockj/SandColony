@@ -15,8 +15,8 @@ var at_target: bool = false
 var working: bool = false
 var navigating: bool = false;
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-const HARVEST_COOLDOWN = 0.5
-var harvest_cooldown = HARVEST_COOLDOWN
+const HARVEST_COOLDOWN = 0.3
+const MINING_COOLDOWN = 0.4
 
 var working_timer : Timer = Timer.new()
 
@@ -50,14 +50,17 @@ func _physics_process(_delta: float) -> void:
 		
 		working_timer.one_shot = false
 		working_timer.autostart = false
-		working_timer.wait_time = HARVEST_COOLDOWN
+		
+		
+		if current_job == "harvest":	
+			colony_member_text_label.Set_3D_Text("harvesting sticks")
+			working_timer.wait_time = HARVEST_COOLDOWN
+		elif current_job == "mining":
+			colony_member_text_label.Set_3D_Text("harvesting rocks")
+			working_timer.wait_time = MINING_COOLDOWN
 		working_timer.timeout.connect(try_harvest)
 		working_timer.start()
 		working = true
-		if current_job == "harvest":	
-			colony_member_text_label.Set_3D_Text("harvesting sticks")
-		elif current_job == "mining":
-			colony_member_text_label.Set_3D_Text("harvesting rocks")
 		
 func move_toward_target() -> void:
 	if nav_agent.is_navigation_finished():
@@ -184,15 +187,18 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 func _on_work_searching_timer_timeout() -> void:
 	# search area and make list of all nodes that have has_work()
 	# find closest that returns true and assign that
-	var closest_node = find_closest_node_with_work(global_position, 20, exclude_list)
-	if closest_node:
-		print("Found work")
-		if closest_node is Bush:
-			assign_harvest_job(closest_node.global_position,closest_node)
-			closest_node.mark_working(get_instance_id())
-		elif closest_node is Rock:
-			assign_mining_job(closest_node.global_position,closest_node)
-			closest_node.mark_working(get_instance_id())
+	var initial_radius = 4
+	for i in range(3):
+		var closest_node = find_closest_node_with_work(global_position, pow(initial_radius,i+1), exclude_list)
+		if closest_node:
+			print("Found work")
+			if closest_node is Bush:
+				assign_harvest_job(closest_node.global_position,closest_node)
+				closest_node.mark_working(get_instance_id())
+			elif closest_node is Rock:
+				assign_mining_job(closest_node.global_position,closest_node)
+				closest_node.mark_working(get_instance_id())
+			break
 			
 func _on_exclude_clear_timer_timeout() -> void:
 	print("clearing exclude list")
