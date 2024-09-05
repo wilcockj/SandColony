@@ -23,6 +23,8 @@ func _ready():
 
 func place_colony_members():
 	colony_member_list = place_node_randomly(colony_member, 1.0, 100)
+	for i in colony_member_list.size():
+		colony_member_list[i].member_id = i
 
 func generate_bushes():
 	place_node_randomly(bush_scene, bush_y_offset, num_bushes)

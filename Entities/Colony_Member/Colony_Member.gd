@@ -25,6 +25,7 @@ const LAST_POSITIONS_NUM = 30
 var last_positions_buf: Circular_Buffer = Circular_Buffer.new(LAST_POSITIONS_NUM)
 
 var exclude_list = []
+var member_id: int = 0
 
 func _ready():
 	nav_agent.velocity_computed.connect(Callable(_on_velocity_computed))
