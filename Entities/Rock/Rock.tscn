@@ -20,7 +20,7 @@ shape = SubResource("BoxShape3D_uvt5f")
 [node name="rock" parent="." instance=ExtResource("2_cbkxs")]
 
 [node name="3dText" parent="rock" instance=ExtResource("2_vgcg6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.022291, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000155926, 0.286359, 3.33049)
 texture = SubResource("ViewportTexture_x0ycc")
 label_text = "bush"
 

@@ -32,6 +32,7 @@ func _ready():
 	nav_agent.target_reached.connect(Callable(_on_reach_target))
 	add_child(working_timer)
 	set_idle()
+	%Debug_Label.Set_3D_Text(name)
 
 func set_idle():
 	colony_member_text_label.Set_3D_Text("idle")
