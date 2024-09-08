@@ -181,7 +181,7 @@ func find_closest_node_with_work(center: Vector3, radius: float, excluded_nodes:
 
 	for collision in result:
 		var node = collision.collider as Node3D
-		if node and node.has_method("has_work") and node.has_work() && node not in excluded_nodes:
+		if node and node.has_method("has_work") and node.has_work() and node not in excluded_nodes:
 			var distance = center.distance_to(node.global_position)
 			if distance < closest_distance:
 				closest_distance = distance

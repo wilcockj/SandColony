@@ -34,7 +34,7 @@ texture = SubResource("ViewportTexture_x0ycc")
 label_text = "bush"
 
 [node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="."]
-radius = 0.85
+radius = 0.5
 
 [node name="GrowTimer" type="Timer" parent="."]
 unique_name_in_owner = true
