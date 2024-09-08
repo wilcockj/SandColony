@@ -47,6 +47,10 @@ func _physics_process(_delta: float) -> void:
 		if current_job_target.is_claimed_by_other(get_instance_id()):
 			set_idle()
 		move_toward_target()
+		
+	if nav_agent.is_navigation_finished() and navigating and not at_target:
+		# didn't quite make it to the target
+		set_idle()
 	
 	if at_target and not working and current_job:
 		

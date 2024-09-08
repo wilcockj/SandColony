@@ -39,6 +39,7 @@ shape = SubResource("CapsuleShape3D_vav7w")
 path_desired_distance = 2.0
 target_desired_distance = 3.0
 path_max_distance = 8.01
+radius = 0.25
 debug_enabled = true
 
 [node name="Inventory_Label" parent="." instance=ExtResource("2_67lly")]
